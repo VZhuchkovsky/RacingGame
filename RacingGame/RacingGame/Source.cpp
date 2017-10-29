@@ -4,14 +4,15 @@
 #include <vector>
 #include <chrono>
 #include <conio.h>
+#include <iomanip>  // setprecision
 
 using namespace std;
 
 #define ROAD_WIDTH 40;
 #define ROAD_LENGHT 20;
-#define DISTANCE 40;
+#define DISTANCE 400;
 
-enum lane { FIRST, SECOND, THIRD, FOURTH };
+enum lane { FIRST, SECOND, THIRD, FOURTH , OBSTACLE};
 
 class Traffic {
 	static const int roadLenght = ROAD_LENGHT;
@@ -30,72 +31,25 @@ public:
 	void moveTrafficVehicle(lane chosenLane) {
 
 		_isOnRoad = 1;
+		
+
+		if (vehicleCoords[0][0][0] == roadLenght) {
+			_reborn = 0;
+		}
 
 		if (_reborn) {
-
-			if (vehicleCoords[0][0][0] == roadLenght + rand() % 10) {
-				_reborn = 0;
-			}
 
 			for (int i = 0; i < vehicleCoords.size(); i++) {
 				for (int j = 0; j < vehicleCoords[0].size(); j++) {
 					for (int o = 0; o < vehicleCoords[0][0].size(); o++) {
 
-						if (i == 0 && j == (vehicleCoords[0].size() - 1)) { //нижняя часть машинки из траффика по строкам
+						if ((i == 0 && j == (vehicleCoords[0].size() - 1)) ||
+							(i == 0 && o == 0 && j < (vehicleCoords[0].size() - 1)) ||
+							(i == 0 && o == (vehicleCoords[0][0].size() - 1) && j < (vehicleCoords[0].size() - 1))) { //нижняя часть машинки из траффика по строкам
 
-							switch (chosenLane) {
-							case(FIRST):
-								vehicleCoords[i][j][o] += 2;
-								break;
-							case(SECOND):
-								vehicleCoords[i][j][o] += 3;
-								break;
-							case(THIRD):
-								vehicleCoords[i][j][o] += 1;
-								break;
-							case(FOURTH):
-								vehicleCoords[i][j][o] += 2;
-								break;
-							}
+							vehicleCoords[i][j][o] += 1;
 
 						}
-						if (i == 0 && o == 0 && j < (vehicleCoords[0].size() - 1)) { //левая часть машинки из траффика по строкам не считая одного пикселя нижней части
-
-							switch (chosenLane) {
-							case(FIRST):
-								vehicleCoords[i][j][o] += 2;
-								break;
-							case(SECOND):
-								vehicleCoords[i][j][o] += 3;
-								break;
-							case(THIRD):
-								vehicleCoords[i][j][o] += 1;
-								break;
-							case(FOURTH):
-								vehicleCoords[i][j][o] += 2;
-								break;
-							}
-
-						}
-						if (i == 0 && o == (vehicleCoords[0][0].size() - 1) && j < (vehicleCoords[0].size() - 1)) { //правая часть машинки из траффика по строкам не считая одного пикселя нижней части
-
-							switch (chosenLane) {
-							case(FIRST):
-								vehicleCoords[i][j][o] += 2;
-								break;
-							case(SECOND):
-								vehicleCoords[i][j][o] += 3;
-								break;
-							case(THIRD):
-								vehicleCoords[i][j][o] += 1;
-								break;
-							case(FOURTH):
-								vehicleCoords[i][j][o] += 2;
-								break;
-
-							}
-						}
-
 					}
 				}
 			}
@@ -114,47 +68,23 @@ public:
 						}
 						if (i == 1 && j == (vehicleCoords[0].size() - 1)) { //нижняя часть машинки из траффика по столбцам
 							vehicleCoords[i][j][o] = 2 + o;
-
-							switch (chosenLane) {
-							case(FIRST):
-								break;
-							case(SECOND):
-								vehicleCoords[i][j][o] += 6;
-								break;
-							case(THIRD):
-								vehicleCoords[i][j][o] += 18;
-								break;
-							case(FOURTH):
-								vehicleCoords[i][j][o] += 24;
-								break;
-							}
-
 						}
 						if (i == 0 && o == 0 && j < (vehicleCoords[0].size() - 1)) { //левая часть машинки из траффика по строкам не считая одного пикселя нижней части
 							vehicleCoords[i][j][o] = -(vehicleCoords[0].size() - j);
 						}
 						if (i == 1 && o == 0 && j < (vehicleCoords[0].size() - 1)) { //левая часть машинки из траффика по стобцам не считая одного пикселя нижней части
 							vehicleCoords[i][j][o] = 2;
-
-							switch (chosenLane) {
-							case(FIRST):
-								break;
-							case(SECOND):
-								vehicleCoords[i][j][o] += 6;
-								break;
-							case(THIRD):
-								vehicleCoords[i][j][o] += 18;
-								break;
-							case(FOURTH):
-								vehicleCoords[i][j][o] += 24;
-								break;
-							}
 						}
 						if (i == 0 && o == (vehicleCoords[0][0].size() - 1) && j < (vehicleCoords[0].size() - 1)) { //правая часть машинки из траффика по строкам не считая одного пикселя нижней части
 							vehicleCoords[i][j][o] = -(vehicleCoords[0].size() - j);
 						}
 						if (i == 1 && o == (vehicleCoords[0][0].size() - 1) && j < (vehicleCoords[0].size() - 1)) { //правая часть машинки из траффика по столбцам не считая одного пикселя нижней части
 							vehicleCoords[i][j][o] = 2 + (vehicleCoords[0][0].size() - 1);
+						}
+
+						if ((i == 1 && j == (vehicleCoords[0].size() - 1)) ||
+							(i == 1 && o == 0 && j < (vehicleCoords[0].size() - 1)) ||
+							(i == 1 && o == (vehicleCoords[0][0].size() - 1) && j < (vehicleCoords[0].size() - 1))) {
 
 							switch (chosenLane) {
 							case(FIRST):
@@ -163,12 +93,22 @@ public:
 								vehicleCoords[i][j][o] += 6;
 								break;
 							case(THIRD):
-								vehicleCoords[i][j][o] += 18;
+								vehicleCoords[i][j][o] += 26;
 								break;
 							case(FOURTH):
-								vehicleCoords[i][j][o] += 24;
+								vehicleCoords[i][j][o] += 32;
 								break;
 							}
+
+						}
+
+						//rnd
+						if ((i == 0 && j == (vehicleCoords[0].size() - 1)) ||
+							(i == 0 && o == 0 && j < (vehicleCoords[0].size() - 1)) ||
+							(i == 0 && o == (vehicleCoords[0][0].size() - 1) && j < (vehicleCoords[0].size() - 1))) {
+
+							vehicleCoords[i][j][o] -= rnd;
+
 						}
 
 					}
@@ -177,6 +117,9 @@ public:
 			}
 
 			_reborn = 1;
+
+			
+
 		}
 	}
 
@@ -194,10 +137,12 @@ class Obstacles {
 	static const int roadLenght = ROAD_LENGHT;
 	int _isOnRoad;
 	int _reborn;
-	vector<vector<int>> obstacle;
+	vector<vector<vector<int>>> obstacleCoords;
 public:
 	Obstacles() {
-		obstacle = { { 0,0,0 },{ 0,0,0 } };
+		obstacleCoords = { { { 0,0,0,0 },{ 0,0,0,0 },{ 0,0,0,0 },{ 0,0,0,0 } },
+		{ { 0,0,0,0 },{ 0,0,0,0 },{ 0,0,0,0 },{ 0,0,0,0 } } };
+
 		_reborn = 0;
 	};
 
@@ -205,16 +150,23 @@ public:
 
 		_isOnRoad = 1;
 
+		if (obstacleCoords[0][0][0] == roadLenght) {
+			_reborn = 0;
+		}
+
 		if (_reborn) {
 
-			if (obstacle[0][0] == roadLenght) {
-				_reborn = 0;
-			}
+			for (int i = 0; i < obstacleCoords.size(); i++) {
+				for (int j = 0; j < obstacleCoords[0].size(); j++) {
+					for (int o = 0; o < obstacleCoords[0][0].size(); o++) {
 
-			for (int i = 0; i < obstacle.size(); i++) {
-				for (int j = 0; j < obstacle[0].size(); j++) {
-					if (i == 0) {
-						obstacle[i][j] += 1;
+						if ((i == 0 && j == (obstacleCoords[0].size() - 1)) ||
+							(i == 0 && o == 0 && j < (obstacleCoords[0].size() - 1)) ||
+							(i == 0 && o == (obstacleCoords[0][0].size() - 1) && j < (obstacleCoords[0].size() - 1))) { 
+
+							obstacleCoords[i][j][o] += 1;
+
+						}
 					}
 				}
 			}
@@ -222,27 +174,43 @@ public:
 		}
 		else {
 
-			int firstLocation = rand() % 10 + 1;
+			int rnd = rand() % 9;
 
-			for (int i = 0; i < obstacle.size(); i++) {
-				for (int j = 0; j < obstacle[0].size(); j++) {
+			for (int i = 0; i < obstacleCoords.size(); i++) {
+				for (int j = 0; j < obstacleCoords[0].size(); j++) {
+					for (int o = 0; o < obstacleCoords[0][0].size(); o++) {
 
-					if (i == 0) {
-						obstacle[i][j] = -1;
-					}
-					if (i == 1) {
-						obstacle[i][j] = firstLocation + j;
+						if (i == 0 && j == (obstacleCoords[0].size() - 1)) { //нижняя часть машинки из траффика по строкам
+							obstacleCoords[i][j][o] = -1;
+						}
+						if (i == 1 && j == (obstacleCoords[0].size() - 1)) { //нижняя часть машинки из траффика по столбцам
+							obstacleCoords[i][j][o] = 13 + o + rnd;
+						}
+						if (i == 0 && o == 0 && j < (obstacleCoords[0].size() - 1)) { //левая часть машинки из траффика по строкам не считая одного пикселя нижней части
+							obstacleCoords[i][j][o] = -(obstacleCoords[0].size() - j);
+						}
+						if (i == 1 && o == 0 && j < (obstacleCoords[0].size() - 1)) { //левая часть машинки из траффика по стобцам не считая одного пикселя нижней части
+							obstacleCoords[i][j][o] = 13 + rnd;
+						}
+						if (i == 0 && o == (obstacleCoords[0][0].size() - 1) && j < (obstacleCoords[0].size() - 1)) { //правая часть машинки из траффика по строкам не считая одного пикселя нижней части
+							obstacleCoords[i][j][o] = -(obstacleCoords[0].size() - j);
+						}
+						if (i == 1 && o == (obstacleCoords[0][0].size() - 1) && j < (obstacleCoords[0].size() - 1)) { //правая часть машинки из траффика по столбцам не считая одного пикселя нижней части
+							obstacleCoords[i][j][o] = 13 + (obstacleCoords[0][0].size() - 1) + rnd;
+						}
+
 					}
 
 				}
 			}
+			
 
 			_reborn = 1;
 		}
 	}
 
-	const vector<vector<int>>& getObstacle() const {
-		return obstacle;
+	const vector<vector<vector<int>>>& getObstacle() const {
+		return obstacleCoords;
 	}
 
 	const int& checkObstacle() const {
@@ -266,14 +234,8 @@ class PlayerCar {
 public:
 	PlayerCar() {
 
-		coords = { { 14,13 },{ 14,16 },{ 18,13 },{ 18,16 } }; //north-west, north-east, south-west, south-east
-															  /*
-															  for (int i = 0; i < carLenght; i++) {
-															  for (int j = 0; j < carWidth; j++) {
-															  car[i][j] = 1;
-															  }
-															  }
-															  */
+		coords = { { 14,16 },{ 14,19 },{ 18,16 },{ 18,19 } }; //north-west, north-east, south-west, south-east
+															 
 		speed = 1000;
 		isAlive = 1;
 	};
@@ -330,31 +292,30 @@ class GameRoad {
 	static const int roadWidth = ROAD_WIDTH;
 	static const int distance = DISTANCE;
 	int _currentDistance;
-	int _pause = 0;
-	int road[roadLenght][roadWidth]; // заменить на <array> или <vector>
+	int _pause;
+	int _victory;
+	int road[roadLenght][roadWidth];
 	PlayerCar& _playerCar;
 	Traffic& _trafficVehicle1;
 	Traffic& _trafficVehicle2;
 	Traffic& _trafficVehicle3;
 	Traffic& _trafficVehicle4;
-	Obstacles& _obstacle1;
-	Obstacles& _obstacle2;
-	/*
-	int isOnRoad1 = 0;
-	vector<vector<vector<int>>> vehicle1Coords;
-	*/
+	Obstacles& _obstacle;
+
 public:
-	GameRoad(PlayerCar& playerCar, Traffic& trafficVehicle1, Traffic& trafficVehicle2, Traffic& trafficVehicle3, Traffic& trafficVehicle4, Obstacles& obstacle1, Obstacles& obstacle2) :
-		_playerCar(playerCar), _trafficVehicle1(trafficVehicle1), _trafficVehicle2(trafficVehicle2), _trafficVehicle3(trafficVehicle3), _trafficVehicle4(trafficVehicle4), _obstacle1(obstacle1), _obstacle2(obstacle2)
+	GameRoad(PlayerCar& playerCar, Traffic& trafficVehicle1, Traffic& trafficVehicle2, Traffic& trafficVehicle3, Traffic& trafficVehicle4, Obstacles& obstacle) :
+		_playerCar(playerCar), _trafficVehicle1(trafficVehicle1), _trafficVehicle2(trafficVehicle2), _trafficVehicle3(trafficVehicle3), _trafficVehicle4(trafficVehicle4), _obstacle(obstacle)
 	{
-		_currentDistance = 0;
+		_currentDistance = 1;
+		_pause = 0;
+		_victory = 0;
 	};
 
 	void updateRoad() {
 
 		vector<vector<int>> coords = _playerCar.getCar();
 		vector<vector<vector<int>>> trafficVehicleCoords;
-		vector<vector<int>> obstacle;
+		vector<vector<vector<int>>> obstacleCoords;
 
 		for (int i = 0; i < roadLenght; i++)
 		{
@@ -419,25 +380,17 @@ public:
 					}
 				}
 
-				if (_obstacle1.checkObstacle()) {
-					obstacle = _obstacle1.getObstacle();
+				if (_obstacle.checkObstacle()) {
+					obstacleCoords = _obstacle.getObstacle();
 
-					if (((i == obstacle[0][0]) && (j == obstacle[1][0])) ||
-						((i == obstacle[0][1]) && (j == obstacle[1][1])) ||
-						((i == obstacle[0][2]) && (j == obstacle[1][2])))
-					{
-						road[i][j] = 3;
-					}
-				}
+					for (int k = 0; k < obstacleCoords[0].size(); k++) {
+						for (int o = 0; o < obstacleCoords[0][0].size(); o++) {
 
-				if (_obstacle2.checkObstacle()) {
-					obstacle = _obstacle2.getObstacle();
+							if ((i == obstacleCoords[0][k][o]) && (j == obstacleCoords[1][k][o])) {
+								road[i][j] = 8;
 
-					if (((i == obstacle[0][0]) && (j == obstacle[1][0])) ||
-						((i == obstacle[0][1]) && (j == obstacle[1][1])) ||
-						((i == obstacle[0][2]) && (j == obstacle[1][2])))
-					{
-						road[i][j] = 3;
+							}
+						}
 					}
 				}
 
@@ -448,22 +401,26 @@ public:
 					((i == coords[3][0]) && (j == coords[3][1])))
 				{
 					road[i][j] = 1;
-				}/*
-				 else
-				 {
-				 road[i][j] = 0;
-				 }*/
+				}
 			}
 		}
 	}
 
 	void showRoad() {
 
+		vector <vector <int> > playerCoords = _playerCar.getCar();
+
 		for (int i = 0; i < roadLenght; i++)
 		{
 			for (int j = 0; j < roadWidth; j++)
 			{
-				cout << road[i][j];
+				if (j == 0 || j == roadWidth - 1) {
+					cout << (char)219;
+				}
+				else {
+					cout << road[i][j];
+				}
+
 			}
 			cout << endl;
 		}
@@ -472,86 +429,52 @@ public:
 	void checkCollision(lane chosenLane) {
 
 		vector<vector<int>> playerCoords = _playerCar.getCar();
-		vector<vector<vector<int>>> trafficVehicleCoords;
-		vector<vector<int>> obstacle;
+		vector<vector<vector<int>>> objCoords;
 
 		switch (chosenLane) {
-		case(FIRST): trafficVehicleCoords = _trafficVehicle1.getTrafficVehicle();
+		case(FIRST): objCoords = _trafficVehicle1.getTrafficVehicle();
 			break;
-		case(SECOND): trafficVehicleCoords = _trafficVehicle2.getTrafficVehicle();
+		case(SECOND): objCoords = _trafficVehicle2.getTrafficVehicle();
 			break;
-		case(THIRD): trafficVehicleCoords = _trafficVehicle3.getTrafficVehicle();
+		case(THIRD): objCoords = _trafficVehicle3.getTrafficVehicle();
 			break;
-		case(FOURTH): trafficVehicleCoords = _trafficVehicle4.getTrafficVehicle();
+		case(FOURTH): objCoords = _trafficVehicle4.getTrafficVehicle();
+			break;
+		case(OBSTACLE): objCoords = _obstacle.getObstacle();
 			break;
 
 		}
 
-		for (int i = 0; i < trafficVehicleCoords.size(); i++) {
-			for (int j = 0; j < trafficVehicleCoords[0].size(); j++) {
-				for (int o = 0; o < trafficVehicleCoords[0][0].size(); o++) {
+		for (int i = 0; i < objCoords.size(); i++) {
+			for (int j = 0; j < objCoords[0].size(); j++) {
+				for (int o = 0; o < objCoords[0][0].size(); o++) {
 
-					//нижняя часть машинки из траффика
-					if ((i == 0 && j == (trafficVehicleCoords[0].size() - 1)) && ((playerCoords[0][0] == trafficVehicleCoords[0][j][o] && playerCoords[0][1] == trafficVehicleCoords[1][j][o]) ||
-						(playerCoords[1][0] == trafficVehicleCoords[0][j][o] && playerCoords[1][1] == trafficVehicleCoords[1][j][o]) ||
-						(playerCoords[2][0] == trafficVehicleCoords[0][j][o] && playerCoords[2][1] == trafficVehicleCoords[1][j][o]) ||
-						(playerCoords[3][0] == trafficVehicleCoords[0][j][o] && playerCoords[3][1] == trafficVehicleCoords[1][j][o])))
+					//нижняя часть объекта 
+					if ((i == 0 && j == (objCoords[0].size() - 1)) && ((playerCoords[0][0] == objCoords[0][j][o] && playerCoords[0][1] == objCoords[1][j][o]) ||
+						(playerCoords[1][0] == objCoords[0][j][o] && playerCoords[1][1] == objCoords[1][j][o]) ||
+						(playerCoords[2][0] == objCoords[0][j][o] && playerCoords[2][1] == objCoords[1][j][o]) ||
+						(playerCoords[3][0] == objCoords[0][j][o] && playerCoords[3][1] == objCoords[1][j][o])))
 					{
 						_playerCar.setBadCondition();
 					}
-					//левая часть машинки из траффика
-					if ((i == 0 && o == 0 && j < (trafficVehicleCoords[0].size() - 1)) && ((playerCoords[0][0] == trafficVehicleCoords[0][j][o] && playerCoords[0][1] == trafficVehicleCoords[1][j][o]) ||
-						(playerCoords[1][0] == trafficVehicleCoords[0][j][o] && playerCoords[1][1] == trafficVehicleCoords[1][j][o]) ||
-						(playerCoords[2][0] == trafficVehicleCoords[0][j][o] && playerCoords[2][1] == trafficVehicleCoords[1][j][o]) ||
-						(playerCoords[3][0] == trafficVehicleCoords[0][j][o] && playerCoords[3][1] == trafficVehicleCoords[1][j][o])))
+					//левая часть объекта
+					if ((i == 0 && o == 0 && j < (objCoords[0].size() - 1)) && ((playerCoords[0][0] == objCoords[0][j][o] && playerCoords[0][1] == objCoords[1][j][o]) ||
+						(playerCoords[1][0] == objCoords[0][j][o] && playerCoords[1][1] == objCoords[1][j][o]) ||
+						(playerCoords[2][0] == objCoords[0][j][o] && playerCoords[2][1] == objCoords[1][j][o]) ||
+						(playerCoords[3][0] == objCoords[0][j][o] && playerCoords[3][1] == objCoords[1][j][o])))
 					{
 						_playerCar.setBadCondition();
 					}
-					//правая часть машинки из траффика
-					if ((i == 0 && o == (trafficVehicleCoords[0][0].size() - 1) && j < (trafficVehicleCoords[0].size() - 1)) &&
-						((playerCoords[0][0] == trafficVehicleCoords[0][j][o] && playerCoords[0][1] == trafficVehicleCoords[1][j][o]) ||
-						(playerCoords[1][0] == trafficVehicleCoords[0][j][o] && playerCoords[1][1] == trafficVehicleCoords[1][j][o]) ||
-							(playerCoords[2][0] == trafficVehicleCoords[0][j][o] && playerCoords[2][1] == trafficVehicleCoords[1][j][o]) ||
-							(playerCoords[3][0] == trafficVehicleCoords[0][j][o] && playerCoords[3][1] == trafficVehicleCoords[1][j][o])))
+					//правая часть объекта 
+					if ((i == 0 && o == (objCoords[0][0].size() - 1) && j < (objCoords[0].size() - 1)) &&
+						((playerCoords[0][0] == objCoords[0][j][o] && playerCoords[0][1] == objCoords[1][j][o]) ||
+						(playerCoords[1][0] == objCoords[0][j][o] && playerCoords[1][1] == objCoords[1][j][o]) ||
+							(playerCoords[2][0] == objCoords[0][j][o] && playerCoords[2][1] == objCoords[1][j][o]) ||
+							(playerCoords[3][0] == objCoords[0][j][o] && playerCoords[3][1] == objCoords[1][j][o])))
 					{
 						_playerCar.setBadCondition();
 					}
 
-					if (_obstacle1.checkObstacle()) {
-						obstacle = _obstacle1.getObstacle();
-
-						for (int n = 0; n < obstacle.size(); n++) {
-							for (int m = 0; m < obstacle[0].size(); m++) {
-								if ((playerCoords[0][0] == obstacle[0][m] && playerCoords[0][1] == obstacle[1][m]) ||
-									(playerCoords[1][0] == obstacle[0][m] && playerCoords[1][1] == obstacle[1][m]) ||
-									(playerCoords[2][0] == obstacle[0][m] && playerCoords[2][1] == obstacle[1][m]) ||
-									(playerCoords[3][0] == obstacle[0][m] && playerCoords[3][1] == obstacle[1][m]))
-								{
-									_playerCar.setBadCondition();
-
-								};
-
-							}
-						}
-					}
-
-					if (_obstacle2.checkObstacle()) {
-						obstacle = _obstacle2.getObstacle();
-
-						for (int n = 0; n < obstacle.size(); n++) {
-							for (int m = 0; m < obstacle[0].size(); m++) {
-								if ((playerCoords[0][0] == obstacle[0][m] && playerCoords[0][1] == obstacle[1][m]) ||
-									(playerCoords[1][0] == obstacle[0][m] && playerCoords[1][1] == obstacle[1][m]) ||
-									(playerCoords[2][0] == obstacle[0][m] && playerCoords[2][1] == obstacle[1][m]) ||
-									(playerCoords[3][0] == obstacle[0][m] && playerCoords[3][1] == obstacle[1][m]))
-								{
-									_playerCar.setBadCondition();
-
-								};
-
-							}
-						}
-					}
 				}
 			}
 		}
@@ -568,37 +491,83 @@ public:
 	const int& checkPause() const {
 		return _pause;
 	}
+
+	const int& checkDistance() const {
+		return _currentDistance;
+	}
+
+	const int& getTotalDistance() const {
+		return distance;
+	}
+
+	void incrementDistance() {
+		++_currentDistance;
+	}
+
+	void isVictoryAchieved() {
+		if (_currentDistance > distance) {
+			_victory = 1;
+		}
+	}
+
+	const int& checkIfVictory() const {		
+		return _victory;
+	}
+
 };
 
+void gameLauncher() {
+	int o = 0;
+	cout << endl << "\t" << "Welcome to Pixel Racing" << endl;
+	cout << endl << "\t" << "To start a game press any button..." << endl;
+	o = getchar();
+}
 
 //Созданный поток
-void Game(GameRoad& gameRoad, PlayerCar& playerCar, Traffic& trafficVehicle1, Traffic& trafficVehicle2, Traffic& trafficVehicle3, Traffic& trafficVehicle4, Obstacles& obstacle1, Obstacles& obstacle2) {
+void Game(GameRoad& gameRoad, PlayerCar& playerCar, Traffic& trafficVehicle1, Traffic& trafficVehicle2, Traffic& trafficVehicle3, Traffic& trafficVehicle4, Obstacles& obstacle) {
 
-	int flag;
+	using namespace chrono;
 
 	trafficVehicle1.moveTrafficVehicle(FIRST);
 	trafficVehicle2.moveTrafficVehicle(SECOND);
 	trafficVehicle3.moveTrafficVehicle(THIRD);
 	trafficVehicle4.moveTrafficVehicle(FOURTH);
+	obstacle.moveObstacle();
 
-	while (playerCar.getCondition())
+	high_resolution_clock::time_point t1 = high_resolution_clock::now();
+	high_resolution_clock::time_point t2;
+	duration<double> time_span;
+
+	while (playerCar.getCondition() && !gameRoad.checkIfVictory())
 	{
+		if (gameRoad.checkPause()) {
+			cout << "Double Enter for unpause." << endl;
+			system("pause");
+		}
+		else {
+
+		t2 = high_resolution_clock::now();
+		time_span = duration_cast<duration<double>>(t2 - t1);
+
+		gameRoad.isVictoryAchieved();
 
 		gameRoad.checkCollision(FIRST);
 		gameRoad.checkCollision(SECOND);
 		gameRoad.checkCollision(THIRD);
 		gameRoad.checkCollision(FOURTH);
-		/*
-		flag = trafficVehicle1.checkIsOnRoad();
+		gameRoad.checkCollision(OBSTACLE);
 
-		if (!flag) {
-		trafficVehicle1.moveTrafficVehicle(FIRST);
-		}
-		*/
-		//vehicle1Coords = gameRoad.getLaneVehicle1();
 
 		gameRoad.updateRoad();
 		gameRoad.showRoad();
+		cout << endl << "\t" << "Current Distance: " << gameRoad.checkDistance() - 1 << "/" << gameRoad.getTotalDistance() << endl;
+		cout << "\t" << "Current Speed: " << (1100 - playerCar.getSpeed()) / 10 << " MpH" << endl;
+		if (time_span.count() < 1) {
+			cout << "\t" << "Current time: " << 0 << endl;
+		}
+		else {
+			cout << "\t" << "Current time: " << setprecision(2) << time_span.count() << endl;
+		}
 		this_thread::sleep_for(chrono::milliseconds(playerCar.getSpeed()));
 		system("cls");
 		//for (int i = 0; i < 20; i++) {
@@ -610,28 +579,61 @@ void Game(GameRoad& gameRoad, PlayerCar& playerCar, Traffic& trafficVehicle1, Tr
 		trafficVehicle2.moveTrafficVehicle(SECOND);
 		trafficVehicle3.moveTrafficVehicle(THIRD);
 		trafficVehicle4.moveTrafficVehicle(FOURTH);
+		obstacle.moveObstacle();
+
+		gameRoad.incrementDistance();
+
+		}
 
 	}
+
+	if (!playerCar.getCondition()) {
+		cout << endl << "\t" << "Wasted!" << endl;
+		cout << endl << "\t" << "Your result is: " << endl;
+		cout << "\t" << gameRoad.checkDistance() - 1 << "/" << gameRoad.getTotalDistance() << endl << endl;
+	}
+
+	if (gameRoad.checkIfVictory()) {
+		cout << endl << "\t" << "Congratulations! You made it to Kiev!" << endl;
+		cout << endl << "\t" << "Your time is: " << endl;
+		cout << "\t" << setprecision(2) << time_span.count() << endl << endl;
+	}
+
+
 }
 
 //Основной поток
 void Handling(GameRoad& gameRoad, PlayerCar& playerCar) {
-	while (playerCar.getCondition())
+	while (playerCar.getCondition() && !gameRoad.checkIfVictory())
 	{
-		int pressedButton = getch();
-		//getch(); //Safety
-		if (pressedButton == 72) playerCar.useAcceleration();
-		else if (pressedButton == 80) playerCar.useBrake();
-		else if (pressedButton == 75) playerCar.turnLeft();
-		else if (pressedButton == 77) playerCar.turnRight();
+		
+			int pressedButton = getch();
+			//getch(); //Safety
 
-		//for (int i = 0; i < 20; i++) {
-		//	cout << endl;
-		//}
+			if (pressedButton == 13) {
+				if (gameRoad.checkPause()) {
+					gameRoad.unPause();
+				}
+				else {
+					gameRoad.setPause();
+				}
+			}
 
-		system("cls");
-		gameRoad.updateRoad();
-		gameRoad.showRoad();
+			if (!gameRoad.checkPause()) {
+			if (pressedButton == 72) playerCar.useAcceleration();
+			else if (pressedButton == 80) playerCar.useBrake();
+			else if (pressedButton == 75) playerCar.turnLeft();
+			else if (pressedButton == 77) playerCar.turnRight();
+			else if (pressedButton == 27) exit(0);
+
+			//for (int i = 0; i < 20; i++) {
+			//	cout << endl;
+			//}
+
+			system("cls");
+			gameRoad.updateRoad();
+			gameRoad.showRoad();
+		}
 	}
 }
 
@@ -644,11 +646,12 @@ int main()
 	Traffic trafficCar2;
 	Traffic trafficCar3;
 	Traffic trafficCar4;
-	Obstacles obstacle1;
-	Obstacles obstacle2;
-	GameRoad gameRoad(playerCar, trafficCar1, trafficCar2, trafficCar3, trafficCar4, obstacle1, obstacle2);
+	Obstacles obstacle;
+	GameRoad gameRoad(playerCar, trafficCar1, trafficCar2, trafficCar3, trafficCar4, obstacle);
 
-	thread thr(Game, ref(gameRoad), ref(playerCar), ref(trafficCar1), ref(trafficCar2), ref(trafficCar3), ref(trafficCar4), ref(obstacle1), ref(obstacle2));
+	gameLauncher();
+
+	thread thr(Game, ref(gameRoad), ref(playerCar), ref(trafficCar1), ref(trafficCar2), ref(trafficCar3), ref(trafficCar4), ref(obstacle));
 	Handling(gameRoad, playerCar);
 	thr.join();
 
