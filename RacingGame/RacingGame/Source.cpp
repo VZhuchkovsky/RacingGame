@@ -19,7 +19,13 @@ int roadWidth() {
 const int ROAD_LENGHT = 20;
 const int DISTANCE = 400;
 
-const enum Lane { LANE_FIRST, LANE_SECOND, LANE_THIRD, LANE_FOURTH , LANE_OBSTACLE};
+const enum Lane { 
+	LANE_FIRST = 0,
+	LANE_SECOND, 
+	LANE_THIRD, 
+	LANE_FOURTH , 
+	LANE_OBSTACLE
+};
 
 class Traffic {
 public:
