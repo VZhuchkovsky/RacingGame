@@ -11,7 +11,7 @@
 
 
 using namespace std;
-
+ 
 const int ROAD_WIDTH = 40;
 int roadWidth() {
 	return 40;
