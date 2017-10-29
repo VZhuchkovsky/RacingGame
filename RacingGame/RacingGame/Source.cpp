@@ -8,11 +8,11 @@
 
 using namespace std;
 
-#define ROAD_WIDTH 40;
-#define ROAD_LENGHT 20;
-#define DISTANCE 400;
+const int ROAD_WIDTH = 40;
+const int ROAD_LENGHT = 20;
+const int DISTANCE = 400;
 
-enum lane { FIRST, SECOND, THIRD, FOURTH , OBSTACLE};
+const enum lane { FIRST, SECOND, THIRD, FOURTH , OBSTACLE};
 
 class Traffic {
 	static const int roadLenght = ROAD_LENGHT;
@@ -415,7 +415,7 @@ public:
 			for (int j = 0; j < roadWidth; j++)
 			{
 				if (j == 0 || j == roadWidth - 1) {
-					cout << (char)219;
+					cout << static_cast<char>(219);
 				}
 				else {
 					cout << road[i][j];
