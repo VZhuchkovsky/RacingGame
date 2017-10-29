@@ -13,7 +13,6 @@ public:
    void moveTrafficVehicle(lane chosenLane);
    inline const vector<vector<vector<int>>>& getTrafficVehicle() const;
    inline const int& checkIsOnRoad() const;
-
 private:
                                               // DO YOU REALLY NEED another static member???
    static const int roadLenght = ROAD_LENGHT; //TODO member variables names as mMemberVariable
