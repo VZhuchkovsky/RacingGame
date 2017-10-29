@@ -143,12 +143,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Obstacles.cpp" />
+    <ClCompile Include="PlayerCar.cpp" />
     <ClCompile Include="RefactoredClasses.cpp" />
     <ClCompile Include="Traffic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonDefines.hpp" />
     <ClInclude Include="Obstacles.hpp" />
+    <ClInclude Include="PlayerCar.hpp" />
     <ClInclude Include="Traffic.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
