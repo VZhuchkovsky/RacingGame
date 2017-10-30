@@ -8,7 +8,7 @@ PlayerCar::PlayerCar(){
 	speed_ = 1000;
 	alive_ = 1;
 }
-
+//move car per pixel to the right
 void PlayerCar::turnRight(){
 	if (coords[1][1] < roadWidth - 1) {
 		coords[0][1] += 1;
@@ -17,7 +17,7 @@ void PlayerCar::turnRight(){
 		coords[3][1] += 1;
 	}
 }
-
+//move car per pixel to the left
 void PlayerCar::turnLeft()
 {
 	if (coords[0][1] > 0) {
@@ -28,14 +28,14 @@ void PlayerCar::turnLeft()
 	}
 }
 
-//Уменьшает время паузы
+//decrease the frame change
 void PlayerCar::useAcceleration()
 {
 	if (speed_ > 150)
 		speed_ -= 100;
 }
 
-//Увеличивает время паузы
+//increase the frame change
 void PlayerCar::useBrake()
 {
 	if (speed_ < 950)
@@ -47,6 +47,7 @@ const vector<vector<int>>& PlayerCar::getCar() const
 	return coords;
 }
 
+//car is destroyed
 void PlayerCar::setBadCondition()
 {
 	alive_ = 0;

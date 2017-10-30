@@ -8,19 +8,9 @@
 #include <chrono> // sleep_for, high_resolution_clock
 
 #include "GameRoad.hpp"
-#include "Obstacles.hpp"
-#include "PlayerCar.hpp"
-#include "Traffic.hpp"
-#include "CommonDefines.hpp"
-
-
 
 using namespace std;
  
-
-
-
-
 void gameLauncher() 
 {
 	int o = 0;
@@ -29,7 +19,7 @@ void gameLauncher()
 	o = getchar();
 }
 
-//Созданный поток
+//Parallel thread
 void Game(GameRoad& gameRoad, PlayerCar& playerCar, Traffic& trafficVehicle1, 
 	Traffic& trafficVehicle2, Traffic& trafficVehicle3, Traffic& trafficVehicle4, Obstacles& obstacle) 
 {
@@ -112,7 +102,7 @@ void Game(GameRoad& gameRoad, PlayerCar& playerCar, Traffic& trafficVehicle1,
 
 }
 
-//Основной поток
+//main thread
 void Handling(GameRoad& gameRoad, PlayerCar& playerCar) 
 {
 	while (playerCar.isAlive() && !gameRoad.checkIfVictory())	{

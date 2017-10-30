@@ -17,6 +17,7 @@ GameRoad::GameRoad(PlayerCar& playerCar, Traffic& trafficVehicle1, Traffic& traf
 	victory_ = 0;
 }
 
+//initialize every object on the road
 void GameRoad::updateRoad() {
 
 	vector<vector<int>> coords = playerCar_.getCar();
@@ -107,6 +108,7 @@ void GameRoad::updateRoad() {
 	}
 }
 
+//draw-function
 void GameRoad::showRoad() {
 	vector <vector <int> > playerCoords = playerCar_.getCar();
 
@@ -126,6 +128,7 @@ void GameRoad::showRoad() {
 	}
 }
 
+//check if the player's car collided with an object
 void GameRoad::checkCollision(Lane chosenLane)
 {
 
@@ -150,7 +153,7 @@ void GameRoad::checkCollision(Lane chosenLane)
 		for (int j = 0; j < objCoords[0].size(); j++) {
 			for (int o = 0; o < objCoords[0][0].size(); o++) {
 
-				//нижняя часть объекта 
+				//bootom part of the traffic vehicle 
 				if ((i == 0 && j == (objCoords[0].size() - 1)) &&
 					((playerCoords[0][0] == objCoords[0][j][o] && playerCoords[0][1] == objCoords[1][j][o]) ||
 					(playerCoords[1][0] == objCoords[0][j][o] && playerCoords[1][1] == objCoords[1][j][o]) ||
@@ -159,7 +162,7 @@ void GameRoad::checkCollision(Lane chosenLane)
 				{
 					playerCar_.setBadCondition();
 				}
-				//левая часть объекта
+				//left part of the traffic vehicle 
 				if ((i == 0 && o == 0 && j < (objCoords[0].size() - 1)) &&
 					((playerCoords[0][0] == objCoords[0][j][o] && playerCoords[0][1] == objCoords[1][j][o]) ||
 					(playerCoords[1][0] == objCoords[0][j][o] && playerCoords[1][1] == objCoords[1][j][o]) ||
@@ -169,7 +172,7 @@ void GameRoad::checkCollision(Lane chosenLane)
 					playerCar_.setBadCondition();
 
 				}
-				//правая часть объекта 
+				//right part of the traffic vehicle 
 				if ((i == 0 && o == (objCoords[0][0].size() - 1) && j < (objCoords[0].size() - 1)) &&
 					((playerCoords[0][0] == objCoords[0][j][o] && playerCoords[0][1] == objCoords[1][j][o]) ||
 					(playerCoords[1][0] == objCoords[0][j][o] && playerCoords[1][1] == objCoords[1][j][o]) ||
@@ -215,6 +218,7 @@ void GameRoad::incrementDistance()
 	++currentDistance_;
 }
 
+//checks if distance reached
 void GameRoad::isVictoryAchieved() {
 	if (currentDistance_ > distance)
 		victory_ = 1;
