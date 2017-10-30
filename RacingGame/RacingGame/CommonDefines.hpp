@@ -5,14 +5,12 @@ const int ROAD_WIDTH = 40;
 const int ROAD_LENGHT = 20;
 const int DISTANCE = 400;
 
-enum lane
-{
-   FIRST = 0,
-   SECOND,
-   THIRD,
-   FOURTH,
-   OBSTACLE
+const enum Lane {
+	LANE_FIRST = 0,
+	LANE_SECOND,
+	LANE_THIRD,
+	LANE_FOURTH,
+	LANE_OBSTACLE
 };
-
 
 #endif COMMONDEFINES_HPP
