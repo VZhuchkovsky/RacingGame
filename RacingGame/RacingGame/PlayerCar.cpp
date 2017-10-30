@@ -1,4 +1,4 @@
-#include "PlayerCar.hpp"
+﻿#include "PlayerCar.hpp"
 
 
 
@@ -9,3 +9,55 @@ PlayerCar::PlayerCar(){
 	alive_ = 1;
 }
 
+void PlayerCar::turnRight(){
+	if (coords[1][1] < roadWidth - 1) {
+		coords[0][1] += 1;
+		coords[1][1] += 1;
+		coords[2][1] += 1;
+		coords[3][1] += 1;
+	}
+}
+
+void PlayerCar::turnLeft()
+{
+	if (coords[0][1] > 0) {
+		coords[0][1] -= 1;
+		coords[1][1] -= 1;
+		coords[2][1] -= 1;
+		coords[3][1] -= 1;
+	}
+}
+
+//Уменьшает время паузы
+void PlayerCar::useAcceleration()
+{
+	if (speed_ > 150)
+		speed_ -= 100;
+}
+
+//Увеличивает время паузы
+void PlayerCar::useBrake()
+{
+	if (speed_ < 950)
+		speed_ += 100;
+}
+
+const vector<vector<int>>& PlayerCar::getCar() const
+{
+	return coords;
+}
+
+void PlayerCar::setBadCondition()
+{
+	alive_ = 0;
+}
+
+const int PlayerCar::isAlive()
+{
+	return alive_;
+}
+
+const int PlayerCar::getSpeed()
+{
+	return speed_;
+}

@@ -8,6 +8,10 @@
 #include <chrono> // sleep_for, high_resolution_clock
 
 #include "GameRoad.hpp"
+#include "Obstacles.hpp"
+#include "PlayerCar.hpp"
+#include "Traffic.hpp"
+#include "CommonDefines.hpp"
 
 
 
